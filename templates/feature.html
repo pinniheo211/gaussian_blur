@@ -1,0 +1,70 @@
+{% extends "index.html" %}
+
+{% block content %}
+    <div class="text-center container " style="margin-top: 50px;">
+        <h1 class="text-primary">Gaussian blur demo</h1>
+        <div class="input-group mb-3 w-25 ">
+            <input type="file" class="form-control" id="imageFile" accept="image/*">
+            <label class="input-group-text" for="inputGroupFile02">Upload</label>
+        </div>
+
+        <div id="result" style="display: none;margin-top:50px;">
+            <img id="processedImage" width="700" alt="" src="">
+        </div>
+     <div id="inputrange" style="display:none; margin-top:20px;">
+            <label for="blur">Độ mờ ảnh:</label>
+            <input type="range" id="blur" min="0" max="20" value="0" step="0.1" style="width:300px">
+            <span id="blur-value">0</span>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const imageFileInput = document.getElementById("imageFile");
+            const blurRange = document.getElementById("blur");
+            const blurValue = document.getElementById("blur-value");
+            const processedImage = document.getElementById("processedImage");
+            const resultDiv = document.getElementById("result");
+            const inputrange = document.getElementById("inputrange");
+
+
+            imageFileInput.addEventListener("change", () => {
+                const file = imageFileInput.files[0];
+                if (file) {
+                    const formData = new FormData();
+                    formData.append("file", file);
+                    const xhr = new XMLHttpRequest();
+                    xhr.open("POST", "/remove_background", true);
+
+                    xhr.onload = function () {
+                        if (xhr.status === 200) {
+                            const response = JSON.parse(xhr.responseText);
+                            if (response.success) {
+                                resultDiv.style.display = "block";
+                                inputrange.style.display = "block";
+                                processedImage.src = response.image_path;
+
+
+                            } else {
+                                alert("Xử lý ảnh thất bại");
+                            }
+                        } else {
+                            alert("Lỗi máy chủ");
+                        }
+                    };
+                    xhr.send(formData);
+
+                }
+            });
+
+            blurRange.addEventListener("input", () => {
+                blurValue.textContent = blurRange.value;
+
+                const blurValueFloat = parseFloat(blurRange.value);
+                if (!isNaN(blurValueFloat)) {
+                    processedImage.style.filter = `blur(${blurValueFloat}px)`;
+                }
+            });
+        });
+    </script>
+{% endblock %}
