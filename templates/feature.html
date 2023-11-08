@@ -67,21 +67,31 @@
             });
 
             saveImageButton.addEventListener("click", () => {
+                // Kích thước padding phụ thuộc vào mức độ blur bạn muốn
+                const padding = parseFloat(blurRange.value) * 2;
+
                 // Tạo một thẻ <canvas> để lưu ảnh đã chỉnh
                 const canvas = document.createElement("canvas");
-                canvas.width = processedImage.width;
-                canvas.height = processedImage.height;
-                const ctx = canvas.getContext("2d");
-                ctx.filter = `blur(${blurRange.value}px)`;
+                // Thêm padding vào kích thước canvas để tránh hiệu ứng loang ra
+                canvas.width = processedImage.naturalWidth + padding;
+                canvas.height = processedImage.naturalHeight + padding;
 
-                // Vẽ ảnh đã chỉnh lên canvas
-                ctx.drawImage(processedImage, 0, 0);
+                const ctx = canvas.getContext("2d");
+
+                // Đặt màu nền cho canvas
+                ctx.fillStyle = 'white'; // Thay đổi màu này nếu bạn muốn một màu nền khác
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // Áp dụng hiệu ứng blur và vẽ ảnh đã chỉnh lên canvas
+                ctx.filter = `blur(${blurRange.value}px)`;
+                // Chú ý đến vị trí vẽ ảnh trên canvas để có padding đều xung quanh
+                ctx.drawImage(processedImage, padding / 2, padding / 2, processedImage.naturalWidth, processedImage.naturalHeight);
+
                 // Tạo một liên kết để tải ảnh đã chỉnh về máy tính của người dùng
-                const processedImageDataUrl = canvas.toDataURL("image/jpeg"); // Đổi định dạng ảnh tùy theo nhu cầu
+                const processedImageDataUrl = canvas.toDataURL("image/png"); // Sử dụng PNG để giữ chất lượng
                 const downloadLink = document.createElement("a");
                 downloadLink.href = processedImageDataUrl;
-                downloadLink.download = "processed_image.jpg"; // Tên tệp khi người dùng tải về
-                // Kích hoạt sự kiện nhấn vào liên kết
+                downloadLink.download = "processed_image.png"; // Đổi tên file và định dạng nếu cần
                 downloadLink.click();
             });
         });
