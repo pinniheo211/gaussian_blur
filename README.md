@@ -11,8 +11,8 @@
    <img width="1505" alt="Ảnh màn hình 2023-11-20 lúc 15 53 24" src="https://github.com/pinniheo211/gaussian_blur/assets/84260434/e447b5a5-f8fd-46e7-9258-2275809b235a">
  - Sau khi đã làm mờ ảnh và tiến hành download ảnh đã làm mờ về.
 DEMO (hướng dẫn chạy ứng dụng):
-B1: vào pycharm và create new project với flask env.
- <img width="811" alt="Ảnh màn hình 2023-11-20 lúc 15 54 57" src="https://github.com/pinniheo211/gaussian_blur/assets/84260434/af9fceac-472c-485b-a874-09f66bd3ab52">
+B1: vào pycharm và create new project với flask.
+<img style="display:block" width="811" alt="Ảnh màn hình 2023-11-20 lúc 15 54 57" src="https://github.com/pinniheo211/gaussian_blur/assets/84260434/af9fceac-472c-485b-a874-09f66bd3ab52">
 
 B2: mở terminal vào thư mục project clone dự án về:
 
